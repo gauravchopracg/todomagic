@@ -1,0 +1,21 @@
+I have deployed the web application on a third-party cloud hosting provider to 
+spend more time working on the application and not worrying about deployment 
+issues. Heroku is a Platform as a Service provider that offer a managed platform
+on which applications can run with hardware, operating system, scripting language
+interpreters, database, etc all managed by the service. Since, deploying a web 
+application on Heroku is done through the git version control tool, it become
+easier for me to have the application in a git repository and made changes in
+that and test everything. Heroku looks for a file called Procfile in the 
+application's root directory for instructions on how to start the application.
+I defined the command to start the web aplication as three commands in sequence.
+First I run a database migration upgrade, then I compile the language translations
+, and finally I start the server For Python projects, Heroku also expects a
+requirements.txt file that lists all the module dependencies that need to be
+installed. Heroku does not provide a web server of its own. Instead, it expects
+the application to start its own web server on the port number given in the
+environment variable $PORT. Since the Flask development web server is not robust
+enough to use for production, I'm going to use gunicorn again, the server
+recommended by Heroku for Python application. The application will also be
+connecting to a Postgres database, and for that SQLAlchemy requires the 
+psycopg2 package to be installed.That's why both gunicorn and psycopg2 need to be
+added to the requirements.txt file
