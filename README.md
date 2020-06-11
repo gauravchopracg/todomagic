@@ -29,21 +29,22 @@ venv\Scripts\activate
 
 3. Modify Requirements and Install Dependencies
 
-Remove gunicorn and psycopg2 from requirements.txt, since they are for development servers.
+Remove gunicorn and psycopg2 from requirements.txt, since they are for development servers and install dependencies without them.
 
 ```bash
 pip install -r requirements.txt
 ```
 
 4. Config variables in .flaskenv file to support email functionalities
-FLASK_APP=todomagic.py
-MAIL_SERVER=smtp.googlemail.com
-MAIL_PORT=587
-MAIL_USE_TLS=1
-MAIL_USERNAME=########@gmail.com
-MAIL_PASSWORD=#####
+* FLASK_APP=todomagic.py
+* MAIL_SERVER=smtp.googlemail.com
+* MAIL_PORT=587
+* MAIL_USE_TLS=1
+* MAIL_USERNAME=########@gmail.com
+* MAIL_PASSWORD=#####
 
 5. Create migration repository
+
 ```bash
 flask db init
 flask db migrate
@@ -51,6 +52,7 @@ flask db upgrade
 ```
 
 6. Run and play with it
+
 ```bash
 flask run
 ```
