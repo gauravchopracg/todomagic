@@ -27,7 +27,10 @@ virtualenv venv
 venv\Scripts\activate
 ```
 
-3. Install Dependencies
+3. Modify Requirements and Install Dependencies
+
+Remove gunicorn and psycopg2 from requirements.txt, since they are for development servers.
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -53,7 +56,7 @@ flask run
 ```
 
 
-## Deployment on heroku
+# Deployment on heroku
 
 To deploy the application on the Heroku
 
@@ -63,17 +66,58 @@ Go to heroku.com and create a free account.
 
 2. Installing the Heroku CLI
 
-Heroku provides a command-line tool for interacting with their service called Heroku CLI, ava
+Heroku provides a command-line tool for interacting with their service called Heroku CLI, available for Windows, Mac OS X and Linux. The documentation includes installation for all the supported platforms. Go ahead and install it on your system.
 
+After that you should login to your Heroku account:
 
-The web application is deployed to Heroku cloud platform. A developer API using flask has been implemented, which returns a JSON containing a python dictionary in which key is URL of post and values are predicted flair. 
-
-Can be accessed by querying POST request: 
-```
-import requests
-
-files = {'upload_file': open('test.txt','rb')}
-r = requests.post("http://rdflair.herokuapp.com/automated_testing", files=files)
+```bash
+heroku login
 ```
 
+3. Setting Up Git
 
+To deploy application to Heroku, you must have git tool installed on your system. If you don't have it yet, you can visit the git site to download an installer.
+
+After that you can clone the application from Github:
+
+```bash
+git clone https://github.com/gauravchopracg/todomagic.git
+cd todomagic
+```
+
+4. Creating a Heroku Application
+
+```bash
+heroku apps:create todo-magic
+```
+
+to check the URL that Heroku assigned to the application run git remote command:
+
+```bash
+git remote -v
+```
+
+5. Switch to Heroku Postgres Database
+
+Heroku has a database offering of its own, based on the Postgres database, so I'm going to switch to that:
+
+```bash
+heroku addons:add heroku-postgresql:hobby-dev
+```
+
+6. Configuring variables
+
+Heroku CLI makes easier to set environment variables to be used at runtime:
+```bash
+heroku config:set LOG_TO_STDOUT=1
+heroku config:set FLASK_APP=todomagic.py
+heroku config:set MAIL_SERVER=smtp.googlemail.com
+heroku config:set MAIL_PORT=587
+heroku config:set MAIL_USE_TLS=1
+heroku config:set MAIL_USERNAME=########@gmail.com
+heroku config:set MAIL_PASSWORD=#####
+```
+
+### Note: Updates to Requirements
+
+Heroku expects the dependencies to be in the requirements.txt file, in your computer you can remove extra dependencies added in the requirements.txt file gunicorn and psycopg2. Since Heroku does not provide a web server of its own. Instead it expects the application to start its own web server on the port number given in the environment variable $PORT. Since the Flask development web server is not robust enough to use for production, I'm using gunicorn again, the server recommended by Heroku for Python applications. The applications will also be connecting to a Postgres database, and for that SQLAlchemy requires the psycopg2 package to be installed.
