@@ -4,7 +4,7 @@ This repository contains files on a “Todo” web application which has a user 
 functionalities, to add/delete/rank(prioritize) tasks in the todo list and also to share a todo list
 over email from the web-app itself.
 
-Live web app is here for you:
+Live web app is here for:
 [Website](http://todomagic.herokuapp.com/)
 
 
